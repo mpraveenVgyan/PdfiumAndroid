@@ -1,0 +1,16 @@
+jdk:
+  - openjdk17
+
+before_install:
+  - echo "Setting up Java 17 for JitPack build"
+  - export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+
+android:
+  components:
+    - platform-tools
+    - build-tools-35.0.0
+    - android-35
+
+# Build configuration
+build:
+  - ./gradlew assemble
