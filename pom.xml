@@ -6,7 +6,7 @@
     
     <groupId>com.github.mpraveenVgyan</groupId>
     <artifactId>PdfiumAndroid</artifactId>
-    <version>1.4</version>
+    <version>1.6</version>
     <packaging>aar</packaging>
     
     <name>PdfiumAndroid</name>
