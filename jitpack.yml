@@ -6,7 +6,3 @@ android:
     - platform-tools
     - build-tools-35.0.0
     - android-35
-
-# Build configuration
-build:
-  - ./gradlew assemble
