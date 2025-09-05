@@ -6,3 +6,11 @@ android:
     - platform-tools
     - build-tools-35.0.0
     - android-35
+
+# Optimize build performance
+before_install:
+  - echo "Starting JitPack build optimization"
+
+# Reduce build time by skipping unnecessary tasks
+install:
+  - ./gradlew clean assemble -x test -x lint
