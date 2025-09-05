@@ -77,12 +77,18 @@ android {
 task publishToMavenLocal {
     dependsOn 'assemble'
     doLast {
-        def groupPath = 'com/github.mpraveenVgyan/PdfiumAndroid/2.0.0'
-        def mavenLocalDir = new File(System.getProperty('user.home'), '.m2/repository/' + groupPath.replace('.', '/'))
+        def groupPath = 'com/github/mpraveenVgyan/PdfiumAndroid/2.0.0'
+        def mavenLocalDir = new File(System.getProperty('user.home'), '.m2/repository/' + groupPath)
         mavenLocalDir.mkdirs()
+        
+        println "Maven local directory: ${mavenLocalDir.absolutePath}"
+        println "Directory exists: ${mavenLocalDir.exists()}"
         
         // Copy release AAR using File operations - fully compatible with configuration cache
         def releaseAar = new File(project.buildDir, 'outputs/aar/pdfium-android-release.aar')
+        println "Looking for AAR at: ${releaseAar.absolutePath}"
+        println "AAR exists: ${releaseAar.exists()}"
+        
         if (releaseAar.exists()) {
             def targetAar = new File(mavenLocalDir, 'PdfiumAndroid-2.0.0.aar')
             releaseAar.withInputStream { input ->
@@ -90,7 +96,9 @@ task publishToMavenLocal {
                     output << input
                 }
             }
-            println "Copied release AAR to Maven local: ${mavenLocalDir}"
+            println "Copied release AAR to: ${targetAar.absolutePath}"
+            println "Target AAR exists: ${targetAar.exists()}"
+            println "Target AAR size: ${targetAar.length()} bytes"
         } else {
             println "Release AAR not found at: ${releaseAar.absolutePath}"
         }
@@ -115,6 +123,16 @@ task publishToMavenLocal {
         </dependency>
     </dependencies>
 </project>'''
+        
+        println "Created POM file at: ${pomFile.absolutePath}"
+        println "POM file exists: ${pomFile.exists()}"
+        println "POM file size: ${pomFile.length()} bytes"
+        
+        // List all files in the Maven local directory
+        println "Files in Maven local directory:"
+        mavenLocalDir.listFiles()?.each { file ->
+            println "  - ${file.name} (${file.length()} bytes)"
+        }
         
         println "AAR files published to Maven local for JitPack"
     }

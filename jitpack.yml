@@ -7,10 +7,6 @@ android:
     - build-tools-35.0.0
     - android-35
 
-# Optimize build performance
-before_install:
-  - echo "Starting JitPack build optimization"
-
-# Build and publish to Maven local for JitPack
+# Use standard JitPack approach
 install:
   - ./gradlew clean publishToMavenLocal -x test -x lint
