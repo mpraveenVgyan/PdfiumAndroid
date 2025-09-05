@@ -11,6 +11,6 @@ android:
 before_install:
   - echo "Starting JitPack build optimization"
 
-# Reduce build time by skipping unnecessary tasks
+# Build and publish to Maven local for JitPack
 install:
-  - ./gradlew clean assemble -x test -x lint
+  - ./gradlew clean publishToMavenLocal -x test -x lint
