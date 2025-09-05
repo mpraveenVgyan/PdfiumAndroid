@@ -77,12 +77,12 @@ android {
 task publishToMavenLocal {
     dependsOn 'assemble'
     doLast {
-        def groupPath = 'com/github/mpraveenVgyan/PdfiumAndroid/2.0.0'
-        def mavenLocalDir = new File(System.getProperty('user.home'), '.m2/repository/' + groupPath)
+        def groupPath = 'com/github.mpraveenVgyan/PdfiumAndroid/2.0.0'
+        def mavenLocalDir = new File(System.getProperty('user.home'), '.m2/repository/' + groupPath.replace('.', '/'))
         mavenLocalDir.mkdirs()
         
-        // Copy release AAR using File operations instead of copy task
-        def releaseAar = file('build/outputs/aar/pdfium-android-release.aar')
+        // Copy release AAR using File operations - fully compatible with configuration cache
+        def releaseAar = new File(project.buildDir, 'outputs/aar/pdfium-android-release.aar')
         if (releaseAar.exists()) {
             def targetAar = new File(mavenLocalDir, 'PdfiumAndroid-2.0.0.aar')
             releaseAar.withInputStream { input ->
@@ -91,6 +91,8 @@ task publishToMavenLocal {
                 }
             }
             println "Copied release AAR to Maven local: ${mavenLocalDir}"
+        } else {
+            println "Release AAR not found at: ${releaseAar.absolutePath}"
         }
         
         // Create POM file

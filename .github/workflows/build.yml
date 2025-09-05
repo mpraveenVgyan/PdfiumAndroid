@@ -44,13 +44,3 @@ jobs:
       with:
         name: aar-files
         path: build/outputs/aar/*.aar
-        
-    - name: Create Release
-      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
-      uses: softprops/action-gh-release@v1
-      with:
-        tag_name: v${{ github.run_number }}
-        name: Release v${{ github.run_number }}
-        draft: false
-        prerelease: false
-        files: build/outputs/aar/*.aar
