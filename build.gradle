@@ -81,13 +81,14 @@ task publishToMavenLocal {
         def mavenLocalDir = new File(System.getProperty('user.home'), '.m2/repository/' + groupPath)
         mavenLocalDir.mkdirs()
         
-        // Copy release AAR
+        // Copy release AAR using File operations instead of copy task
         def releaseAar = file('build/outputs/aar/pdfium-android-release.aar')
         if (releaseAar.exists()) {
-            copy {
-                from releaseAar
-                into mavenLocalDir
-                rename 'pdfium-android-release.aar', 'PdfiumAndroid-2.0.0.aar'
+            def targetAar = new File(mavenLocalDir, 'PdfiumAndroid-2.0.0.aar')
+            releaseAar.withInputStream { input ->
+                targetAar.withOutputStream { output ->
+                    output << input
+                }
             }
             println "Copied release AAR to Maven local: ${mavenLocalDir}"
         }
